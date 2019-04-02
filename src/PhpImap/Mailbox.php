@@ -782,7 +782,7 @@ class Mailbox {
 	 */
 	public function getMailboxes($search = "*") {
 		$arr = [];
-		if($t = imap_getmailboxes($this->getImapStream(), $this->imapPath, $search)) {
+		if($t = imap_getmailboxes($this->getImapStream(), mb_convert_encoding($this->imapPath, "UTF7-IMAP", "UTF-8"), $search)) {
 			foreach($t as $item) {
 				$arr[] = [
 					"fullpath" => $item->name,
@@ -845,7 +845,7 @@ class Mailbox {
 		}
 		foreach($args as &$arg) {
 			if(is_string($arg)) {
-				$arg = imap_utf7_encode($arg);
+				$arg = mb_convert_encoding($arg, "UTF7-IMAP", "UTF-8");
 			}
 		}
 		if($prependConnectionAsFirstArg) {
